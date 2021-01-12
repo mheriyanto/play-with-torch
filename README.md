@@ -26,4 +26,4 @@ $ sudo apt install libopenblas-dev libblas-dev m4 cython python3-yaml
 + [Share PyTorch binaries built for Raspberry Pi](https://github.com/ljk53/pytorch-rpi)
 
 ## Reference
-+ 
++ Victor Huang - PyTorch Template Project ([here](https://github.com/victoresque/pytorch-template#folder-structure))
