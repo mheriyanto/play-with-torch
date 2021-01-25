@@ -1,4 +1,4 @@
-[![HitCount](http://hits.dwyl.com/ezygeo-ai/machine-learning-and-geophysical-inversion.svg)](http://hits.dwyl.com/mheriyanto/DetectorPi)
+[![HitCount](http://hits.dwyl.com/mheriyanto/DetectorPi.svg)](http://hits.dwyl.com/mheriyanto/DetectorPi)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/mheriyanto/DetectorPi/issues)
 ![GitHub contributors](https://img.shields.io/github/contributors/mheriyanto/DetectorPi)
 ![GitHub last commit](https://img.shields.io/github/last-commit/mheriyanto/DetectorPi)
@@ -51,17 +51,70 @@ $ pip3 install torch-1.6.0a0+b31f58d-cp38-cp38-linux_aarch64.whl
 
 ```
 
-## Getting Started
+## Folder Structure
+  ```
+  DetectorPi/
+  ├── inference.py
+  ├── train.py - main script to start training
+  ├── test.py - evaluation of trained model
+  │
+  ├── config.json - holds configuration for training
+  ├── parse_config.py - class to handle config file and cli options
+  │
+  ├── docs/ - for documentation
+  │   └── DetectorPi.tex
+  │
+  ├── templates/ - for serving model on Flask
+  │   └── index.html
+  │
+  ├── base/ - abstract base classes
+  │   ├── base_data_loader.py
+  │   ├── base_model.py
+  │   └── base_trainer.py
+  │
+  ├── data_loader/ - anything about data loading goes here
+  │   └── data_loaders.py
+  │
+  ├── data/ - default directory for storing input data
+  │
+  ├── model/ - models, losses, and metrics
+  │   ├── model.py
+  │   ├── metric.py
+  │   └── loss.py
+  │
+  ├── saved/
+  │   ├── models/ - trained models are saved here
+  │   └── log/ - default logdir for tensorboard and logging output
+  │
+  ├── trainer/ - trainers
+  │   └── trainer.py
+  │
+  ├── logger/ - module for tensorboard visualization and logging
+  │   ├── visualization.py
+  │   ├── logger.py
+  │   └── logger_config.json
+  │  
+  └── utils/ - small utility functions
+      ├── util.py
+      └── ...
+  ```
+
+
+## Usage
 + run command below
 ```console
 $ git clone https://github.com/mheriyanto/DetectorPi.git
 $ cd DetectorPi
-$ cd test
-$ python3 test_torch.py
+$ cd src
+$ python3 inference.py
 ```
+
+## TODO
+[ ] Implement Unit-Test: Test-Driven Development (TDD)
 
 # Credit to
 + [Share PyTorch binaries built for Raspberry Pi](https://github.com/ljk53/pytorch-rpi)
 
 ## Reference
++ Yunjey Choi - PyTorch Tutorial for Deep Learning Researchers  [here](https://github.com/yunjey/pytorch-tutorial)
 + Victor Huang - PyTorch Template Project ([here](https://github.com/victoresque/pytorch-template#folder-structure))

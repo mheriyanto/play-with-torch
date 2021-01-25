@@ -39,3 +39,8 @@ instance/
 .venv
 env/
 venv/
+
+# PyTorch
+*.pt
+*.mp4
+*.png 
