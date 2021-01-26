@@ -44,3 +44,8 @@ venv/
 *.pt
 *.mp4
 *.png 
+
+# Folder
+data/
+docs/
+

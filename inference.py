@@ -14,7 +14,7 @@ def index():
 
 def generate(cctv):
     start_time = time.time()
-    time_thershold = 1  # second
+    time_threshold = 1  # second
     counter = 0
     fps_var = 0
 
@@ -27,8 +27,9 @@ def generate(cctv):
             now = '{}'.format(now.strftime("%d-%m-%Y %H:%M:%S"))
 
             counter += 1
-            if (time.time() - start_time) > time_thershold:
-                fps_var = counter / (time.time() - start_time)
+            time_counter = time.time() - start_time
+            if time_counter > time_threshold:
+                fps_var = counter / time_counter
                 fps_var = int(fps_var)
                 counter = 0
                 start_time = time.time()
@@ -49,7 +50,7 @@ def generate(cctv):
             yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
         else:
-            print('no image')
+            print('no frame')
 
 
 @app.route('/video_feed')
