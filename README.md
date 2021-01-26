@@ -48,8 +48,6 @@ $ free -h
 
 ```console
 $ pip3 install torch-1.6.0a0+b31f58d-cp38-cp38-linux_aarch64.whl
-
-
 ```
 
 ## Folder Structure
@@ -106,12 +104,11 @@ $ pip3 install torch-1.6.0a0+b31f58d-cp38-cp38-linux_aarch64.whl
 ```console
 $ git clone https://github.com/mheriyanto/DetectorPi.git
 $ cd DetectorPi
-$ cd src
-$ python3 inference.py
+$ python3 inference.py --source /dev/video0
 ```
 
 ## TODO
-[] Implement Unit-Test: Test-Driven Development (TDD)
+[x] Implement Unit-Test: Test-Driven Development (TDD)
 
 # Credit to
 + [Share PyTorch binaries built for Raspberry Pi](https://github.com/ljk53/pytorch-rpi)
