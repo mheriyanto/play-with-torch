@@ -11,6 +11,9 @@ x = torch.tensor(1., requires_grad=True)
 w = torch.tensor(2., requires_grad=True)
 b = torch.tensor(3., requires_grad=True)
 
+# Build a computational graph.
+y = w * x + b    # y = 2 * x + 3
+
 # Compute gradients.
 y.backward()
 
