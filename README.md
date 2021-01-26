@@ -49,12 +49,13 @@ $ free -h
 ```console
 $ pip3 install torch-1.6.0a0+b31f58d-cp38-cp38-linux_aarch64.whl
 
+
 ```
 
 ## Folder Structure
   ```
   DetectorPi/
-  ├── inference.py
+  ├── inference.py - main script to inference model
   ├── train.py - main script to start training
   ├── test.py - evaluation of trained model
   │
@@ -110,7 +111,7 @@ $ python3 inference.py
 ```
 
 ## TODO
-[ ] Implement Unit-Test: Test-Driven Development (TDD)
+[] Implement Unit-Test: Test-Driven Development (TDD)
 
 # Credit to
 + [Share PyTorch binaries built for Raspberry Pi](https://github.com/ljk53/pytorch-rpi)
