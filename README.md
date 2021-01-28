@@ -100,15 +100,17 @@ $ pip3 install torch-1.6.0a0+b31f58d-cp38-cp38-linux_aarch64.whl
 
 
 ## Usage
-+ run command below
+
 ```console
 $ git clone https://github.com/mheriyanto/DetectorPi.git
 $ cd DetectorPi
 $ python3 inference.py --source /dev/video0
 ```
 
-## TODO
-[x] Implement Unit-Test: Test-Driven Development (TDD)
+## TO DO
+
+- [ ] Implement Unit-Test: Test-Driven Development (TDD)
+
 
 # Credit to
 + [Share PyTorch binaries built for Raspberry Pi](https://github.com/ljk53/pytorch-rpi)
