@@ -1,14 +1,14 @@
-[![HitCount](http://hits.dwyl.com/mheriyanto/DetectorPi.svg)](http://hits.dwyl.com/mheriyanto/DetectorPi)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/mheriyanto/DetectorPi/issues)
-![GitHub contributors](https://img.shields.io/github/contributors/mheriyanto/DetectorPi)
-![GitHub last commit](https://img.shields.io/github/last-commit/mheriyanto/DetectorPi)
-![GitHub top language](https://img.shields.io/github/languages/top/mheriyanto/DetectorPi)
-![GitHub language count](https://img.shields.io/github/languages/count/mheriyanto/DetectorPi)
-![GitHub repo size](https://img.shields.io/github/repo-size/mheriyanto/DetectorPi)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/mheriyanto/DetectorPi)
+[![HitCount](http://hits.dwyl.com/mheriyanto/play-with-torch.svg)](http://hits.dwyl.com/mheriyanto/play-with-torch)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/mheriyanto/play-with-torch/issues)
+![GitHub contributors](https://img.shields.io/github/contributors/mheriyanto/play-with-torch)
+![GitHub last commit](https://img.shields.io/github/last-commit/mheriyanto/play-with-torch)
+![GitHub top language](https://img.shields.io/github/languages/top/mheriyanto/play-with-torch)
+![GitHub language count](https://img.shields.io/github/languages/count/mheriyanto/play-with-torch)
+![GitHub repo size](https://img.shields.io/github/repo-size/mheriyanto/play-with-torch)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/mheriyanto/play-with-torch)
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-black.svg?style=flat&logo=linkedin&colorB=555)](https://id.linkedin.com/in/mheriyanto)
 
-# DetectorPi
+# play-with-torch
 Repository for playing the computer vision apps: **face recognition** on Raspberry Pi. 
 
 ## Tools
@@ -52,7 +52,7 @@ $ pip3 install torch-1.6.0a0+b31f58d-cp38-cp38-linux_aarch64.whl
 
 ## Folder Structure
   ```
-  DetectorPi/
+  play-with-torch/
   ├── inference.py - main script to inference model
   ├── train.py - main script to start training
   ├── test.py - evaluation of trained model
@@ -61,7 +61,7 @@ $ pip3 install torch-1.6.0a0+b31f58d-cp38-cp38-linux_aarch64.whl
   ├── parse_config.py - class to handle config file and cli options
   │
   ├── docs/ - for documentation
-  │   └── DetectorPi.tex
+  │   └── play-with-torch.tex
   │
   ├── templates/ - for serving model on Flask
   │   └── index.html
@@ -102,8 +102,8 @@ $ pip3 install torch-1.6.0a0+b31f58d-cp38-cp38-linux_aarch64.whl
 ## Usage
 
 ```console
-$ git clone https://github.com/mheriyanto/DetectorPi.git
-$ cd DetectorPi
+$ git clone https://github.com/mheriyanto/play-with-torch.git
+$ cd play-with-torch
 $ python3 inference.py --source /dev/video0
 ```
 
