@@ -1,4 +1,4 @@
-[![HitCount](http://hits.dwyl.com/mheriyanto/play-with-torch.svg)](http://hits.dwyl.com/mheriyanto/play-with-torch)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fmheriyanto%2Fplay-with-torch&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/mheriyanto/play-with-torch/issues)
 ![GitHub contributors](https://img.shields.io/github/contributors/mheriyanto/play-with-torch)
 ![GitHub last commit](https://img.shields.io/github/last-commit/mheriyanto/play-with-torch)
