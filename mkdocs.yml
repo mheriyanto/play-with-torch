@@ -1,0 +1,35 @@
+# Project information
+site_name: play-with-torch
+site_url: http://127.0.0.1:8000 #https://madewithml.com/#mlops
+site_description: Repository for playing the computer vision apps using PyTorch on Raspberry Pi.
+site_author: Mohammad Heriyanto
+
+# Repository
+repo_url: https://github.com/mheriyanto/play-with-torch
+repo_name: mheriyanto/play-with-torch
+edit_uri: "" #disables edit button
+
+# Copyright
+copyright: Copyright &copy; 2021 Mohammad Heriyanto
+
+# Configuration
+theme:
+  name: material
+  logo: static/images/logo.png
+  favicon: static/images/favicon.ico
+  palette:
+    primary: deep orange
+    accent: deep orange
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.expand
+  icon:
+    repo: "" #fontawesome/brands/github
+
+# Page tree
+nav:
+  - Home: index.md
+
