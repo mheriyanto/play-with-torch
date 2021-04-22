@@ -1,6 +1,6 @@
 # Project information
 site_name: play-with-torch
-site_url: http://127.0.0.1:8000 #https://madewithml.com/#mlops
+site_url: http://mheriyanto.github.io/play-with-torch
 site_description: Repository for playing the computer vision apps using PyTorch on Raspberry Pi.
 site_author: Mohammad Heriyanto
 
