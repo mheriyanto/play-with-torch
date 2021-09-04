@@ -9,7 +9,7 @@
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-black.svg?style=flat&logo=linkedin&colorB=555)](https://id.linkedin.com/in/mheriyanto)
 
 # play-with-torch
-Repository for playing the computer vision apps: **Vehicle classification** on Raspberry Pi. 
+Repository for playing the computer vision apps: **Face recognition** on Raspberry Pi. 
 
 ## Tools
 ### Tested Hardware
