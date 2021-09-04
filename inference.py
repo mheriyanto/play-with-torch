@@ -1,67 +1,161 @@
 import argparse
-import cv2
-
-from flask import Flask, render_template, Response
-from datetime import datetime
+import os
 import time
 
-app = Flask(__name__)
+import cv2
+import torch
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+from utils.data.transform import Pipeline
+from models.arch import build_model
+from utils import Logger, cfg, load_config, load_model_weight
+from utils.path import mkdir
+
+image_ext = [".jpg", ".jpeg", ".webp", ".bmp", ".png"]
+video_ext = ["mp4", "mov", "avi", "mkv"]
 
 
-def generate(cctv):
-    start_time = time.time()
-    time_threshold = 1  # second
-    counter = 0
-    fps_var = 0
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "demo", default="image", help="demo type, eg. image, video and webcam"
+    )
+    parser.add_argument("--config", help="model config file path")
+    parser.add_argument("--model", help="model file path")
+    parser.add_argument("--path", default="./demo", help="path to images or video")
+    parser.add_argument("--camid", type=int, default=0, help="webcam demo camera id")
+    parser.add_argument(
+        "--save_result",
+        action="store_false",
+        help="whether to save the inference result of image/video",
+    )
+    args = parser.parse_args()
+    return args
 
-    cap = cv2.VideoCapture(cctv)
-    while True:
-        ret, frame = cap.read()
-        if ret:
-            h_img, w_img, d_img = frame.shape
-            now = datetime.now()
-            now = '{}'.format(now.strftime("%d-%m-%Y %H:%M:%S"))
 
-            counter += 1
-            time_counter = time.time() - start_time
-            if time_counter > time_threshold:
-                fps_var = counter / time_counter
-                fps_var = int(fps_var)
-                counter = 0
-                start_time = time.time()
+class Predictor(object):
+    def __init__(self, cfg, model_path, logger, device="cuda:0"):
+        self.cfg = cfg
+        self.device = device
+        model = build_model(cfg.model)
+        ckpt = torch.load(model_path, map_location=lambda storage, loc: storage)
+        load_model_weight(model, ckpt, logger)
+        if cfg.model.arch.backbone.name == "RepVGG":
+            deploy_config = cfg.model
+            deploy_config.arch.backbone.update({"deploy": True})
+            deploy_model = build_model(deploy_config)
+            from models.backbone.repvgg import repvgg_det_model_convert
 
-            info_frame = [
-                ("FPS", fps_var),
-                ("Date", now)
-            ]
+            model = repvgg_det_model_convert(model, deploy_model)
+        self.model = model.to(device).eval()
+        self.pipeline = Pipeline(cfg.data.val.pipeline, cfg.data.val.keep_ratio)
 
-            x_text = 0
-            y_text = h_img
-            for (i1, (k, v)) in enumerate(info_frame):
-                text = "{}: {}".format(k, v)
-                cv2.putText(frame, text, (int(x_text), int(y_text) - ((i1 * 20) + 20)),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-
-            frame = cv2.imencode('.jpg', frame)[1].tobytes()
-            yield (b'--frame\r\n'
-                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+    def inference(self, img):
+        img_info = {"id": 0}
+        if isinstance(img, str):
+            img_info["file_name"] = os.path.basename(img)
+            img = cv2.imread(img)
         else:
-            print('no frame')
+            img_info["file_name"] = None
+
+        height, width = img.shape[:2]
+        img_info["height"] = height
+        img_info["width"] = width
+        meta = dict(img_info=img_info, raw_img=img, img=img)
+        meta = self.pipeline(meta, self.cfg.data.val.input_size)
+        meta["img"] = (
+            torch.from_numpy(meta["img"].transpose(2, 0, 1))
+            .unsqueeze(0)
+            .to(self.device)
+        )
+        with torch.no_grad():
+            results = self.model.inference(meta)
+        return meta, results
+
+    def visualize(self, dets, meta, class_names, score_thres, wait=0):
+        time1 = time.time()
+        result_img = self.model.head.show_result(
+            meta["raw_img"], dets, class_names, score_thres=score_thres, show=True
+        )
+        print("viz time: {:.3f}s".format(time.time() - time1))
+        return result_img
 
 
-@app.route('/video_feed')
-def video_feed():
-    return Response(generate(opt.source),mimetype='multipart/x-mixed-replace; boundary=frame')
+def get_image_list(path):
+    image_names = []
+    for maindir, subdir, file_name_list in os.walk(path):
+        for filename in file_name_list:
+            apath = os.path.join(maindir, filename)
+            ext = os.path.splitext(apath)[1]
+            if ext in image_ext:
+                image_names.append(apath)
+    return image_names
+
+
+def main():
+    args = parse_args()
+    local_rank = 0
+    torch.backends.cudnn.enabled = True
+    torch.backends.cudnn.benchmark = True
+
+    load_config(cfg, args.config)
+    logger = Logger(local_rank, use_tensorboard=False)
+    predictor = Predictor(cfg, args.model, logger, device="cuda:0")
+    logger.log('Press "Esc", "q" or "Q" to exit.')
+    current_time = time.localtime()
+
+    if args.demo == "image":
+        if os.path.isdir(args.path):
+            files = get_image_list(args.path)
+        else:
+            files = [args.path]
+        files.sort()
+        for image_name in files:
+            meta, res = predictor.inference(image_name)
+            result_image = predictor.visualize(res[0], meta, cfg.class_names, 0.35)
+            if args.save_result:
+                save_folder = os.path.join(
+                    cfg.save_dir, time.strftime("%Y_%m_%d_%H_%M_%S", current_time)
+                )
+                mkdir(local_rank, save_folder)
+                save_file_name = os.path.join(save_folder, os.path.basename(image_name))
+                cv2.imwrite(save_file_name, result_image)
+            ch = cv2.waitKey(0)
+            if ch == 27 or ch == ord("q") or ch == ord("Q"):
+                break
+            
+    elif args.demo == "video" or args.demo == "webcam":
+        cap = cv2.VideoCapture(args.path if args.demo == "video" else args.camid)
+        width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)  # float
+        height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)  # float
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        save_folder = os.path.join(
+            cfg.save_dir, time.strftime("%Y_%m_%d_%H_%M_%S", current_time)
+        )
+        mkdir(local_rank, save_folder)
+        save_path = (
+            os.path.join(save_folder, args.path.split("/")[-1])
+            if args.demo == "video"
+            else os.path.join(save_folder, "camera.mp4")
+        )
+        print(f"save_path is {save_path}")
+        vid_writer = cv2.VideoWriter(
+            save_path, cv2.VideoWriter_fourcc(*"mp4v"), fps, (int(width), int(height))
+        )
+        while True:
+            ret_val, frame = cap.read()
+            if ret_val:
+                meta, res = predictor.inference(frame)
+                result_frame = predictor.visualize(res[0], meta, cfg.class_names, 0.35)
+                if args.save_result:
+                    vid_writer.write(result_frame)
+                ch = cv2.waitKey(1)
+                if ch == 27 or ch == ord("q") or ch == ord("Q"):
+                    break
+            else:
+                break
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--source', type=str, default='/dev/video0', help='path to input source') # input file/folder, 0 for webcam
-    opt = parser.parse_args()
-
-    app.run(host="0.0.0.0", port=5000, threaded=True)
-    # python3 inference.py --source /dev/video0
+    main()
+    # video
+    # python3 inference.py video --config config/nanodet-m.yml --model saved/models/nanodet_m.ckpt --path /home/delameta/dataset/input/cimanggis_pagi_new2_30FPS.mp4

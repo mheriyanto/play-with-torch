@@ -18,6 +18,9 @@
 
 # Python: https://github.com/github/gitignore/blob/master/Python.gitignore
 
+# Cache
+__pycache__/
+
 ## Distribution / packaging
 build/
 dist/
@@ -40,12 +43,16 @@ instance/
 env/
 venv/
 
+# FOLDER -----------------
+samples/
+
+# FILE -----------------
 # PyTorch
 *.pt
+*.ckpt
+
+# Samples
 *.mp4
 *.png 
 
-# Folder
-data/
-dev/
 

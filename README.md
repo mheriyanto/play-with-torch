@@ -53,49 +53,45 @@ $ pip3 install torch-1.6.0a0+b31f58d-cp38-cp38-linux_aarch64.whl
 ## Folder Structure
   ```
   play-with-torch/
-  ├── inference.py - main script to inference model
-  ├── train.py - main script to start training
-  ├── test.py - evaluation of trained model
+  ├── config/
+  │    ├── config.json - holds configuration for training
+  │    └── parse_config.py - class to handle config file and cli options
   │
-  ├── config.json - holds configuration for training
-  ├── parse_config.py - class to handle config file and cli options
+  ├── docker/
+  │   ├── Dockerfile
+  │   └── requirements.txt
+  │
+  ├── data/ - default directory for storing input data
   │
   ├── docs/ - for documentation
   │   └── play-with-torch.tex
   │
-  ├── templates/ - for serving model on Flask
-  │   └── index.html
-  │
-  ├── base/ - abstract base classes
-  │   ├── base_data_loader.py
-  │   ├── base_model.py
-  │   └── base_trainer.py
-  │
-  ├── data_loader/ - anything about data loading goes here
-  │   └── data_loaders.py
-  │
-  ├── data/ - default directory for storing input data
-  │
-  ├── model/ - models, losses, and metrics
+  ├── models/ - models, losses, and metrics
   │   ├── model.py
   │   ├── metric.py
   │   └── loss.py
   │
+  ├── samples/
+  │
   ├── saved/
+  │   ├── checkpoints/
+  │   ├── traced_model/
   │   ├── models/ - trained models are saved here
-  │   └── log/ - default logdir for tensorboard and logging output
+  │   └── logs/ - default logdir for tensorboard and logging output
   │
-  ├── trainer/ - trainers
-  │   └── trainer.py
+  ├── site
+  ├── templates/ - for serving model on Flask
+  │   └── index.html
+  ├── tests/
+  ├── utils/ - small utility functions
+  │   ├── data/
+  │   └── ...
   │
-  ├── logger/ - module for tensorboard visualization and logging
-  │   ├── visualization.py
-  │   ├── logger.py
-  │   └── logger_config.json
-  │  
-  └── utils/ - small utility functions
-      ├── util.py
-      └── ...
+  ├── inference.py - main script to inference model
+  ├── README.md
+  ├── trace_model.py - main script to convert model
+  └── train.py - main script to start training  
+
   ```
 
 
@@ -103,8 +99,8 @@ $ pip3 install torch-1.6.0a0+b31f58d-cp38-cp38-linux_aarch64.whl
 
 ```console
 $ git clone https://github.com/mheriyanto/play-with-torch.git
-$ cd play-with-torch
-$ python3 inference.py --source /dev/video0
+$ cd play-with-torch/
+$ python3 inference.py webcam --config config/nanodet-m.yml --model saved/models/nanodet_m.ckpt --camid 0
 ```
 
 ## TO DO
@@ -116,5 +112,6 @@ $ python3 inference.py --source /dev/video0
 + [Share PyTorch binaries built for Raspberry Pi](https://github.com/ljk53/pytorch-rpi)
 
 ## Reference
++ NanoDet: Super fast and lightweight anchor-free object detection model. [here](https://github.com/RangiLyu/nanodet)
 + Yunjey Choi - PyTorch Tutorial for Deep Learning Researchers  [here](https://github.com/yunjey/pytorch-tutorial)
 + Victor Huang - PyTorch Template Project ([here](https://github.com/victoresque/pytorch-template#folder-structure))

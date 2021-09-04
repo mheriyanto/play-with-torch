@@ -1,0 +1,15 @@
+argparse==1.4.0
+Cython==0.29.21
+Flask==1.1.2
+matplotlib==3.3.0
+numpy==1.19.2
+opencv-python==4.5.1.48
+pyaml
+pycocotools
+pytorch-lightning==1.2.5
+tensorboard==2.4.1
+termcolor
+torch==1.7.0+cu101
+torchvision==0.8.1+cu101
+torchmetrics
+tqdm==4.50.2
