@@ -97,10 +97,18 @@ $ pip3 install torch-1.6.0a0+b31f58d-cp38-cp38-linux_aarch64.whl
 
 ## Usage
 
+<ins>**Run inference**</ins>
+
 ```console
 $ git clone https://github.com/mheriyanto/play-with-torch.git
 $ cd play-with-torch/
-$ python3 inference.py webcam --config config/nanodet-m.yml --model saved/models/nanodet_m.ckpt --camid 0
+$ python3 inference.py video --config config/nanodet-m.yml --model saved/models/nanodet_m.ckpt --path video.mp4
+```
+
+<ins>**Convert model**</ins>
+
+```console
+$ python3 trace_model.py --cfg_path config/nanodet-m.yml --model_path saved/models/nanodet_m.ckpt --input_shape 320,320
 ```
 
 ## TO DO

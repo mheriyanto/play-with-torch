@@ -61,7 +61,7 @@ def parse_args():
     parser.add_argument(
         "--out_path",
         type=str,
-        default="nanodet.torchscript.pth",
+        default="saved/traced_model/nanodet.torchscript.pth",
         help="TorchScript model output path.",
     )
     parser.add_argument(
@@ -76,12 +76,14 @@ if __name__ == "__main__":
     model_path = args.model_path
     out_path = args.out_path
     input_shape = args.input_shape
+    
     load_config(cfg, cfg_path)
     if input_shape is None:
         input_shape = cfg.data.train.input_size
     else:
         input_shape = tuple(map(int, input_shape.split(",")))
         assert len(input_shape) == 2
+
     if model_path is None:
         model_path = os.path.join(cfg.save_dir, "model_best/model_best.ckpt")
     main(cfg, model_path, out_path, input_shape)

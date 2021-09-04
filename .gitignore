@@ -50,6 +50,7 @@ samples/
 # PyTorch
 *.pt
 *.ckpt
+*.pth
 
 # Samples
 *.mp4
