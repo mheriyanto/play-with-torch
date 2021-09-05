@@ -111,6 +111,12 @@ $ python3 inference.py video --config config/nanodet-m.yml --model saved/models/
 $ python3 trace_model.py --cfg_path config/nanodet-m.yml --model_path saved/models/nanodet_m.ckpt --input_shape 320,320
 ```
 
+<ins>**Training**</ins>
+
+```console
+$ python3 train.py config/nanodet_custom_xml_dataset.yml
+```
+
 ## TO DO
 
 - [ ] Implement Unit-Test: Test-Driven Development (TDD)
