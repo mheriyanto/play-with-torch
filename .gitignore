@@ -44,16 +44,10 @@ env/
 venv/
 
 # FOLDER -----------------
-samples/
+# samples/
 
 # FILE -----------------
 # PyTorch
 *.pt
 *.ckpt
 *.pth
-
-# Samples
-*.mp4
-*.png 
-
-

@@ -79,6 +79,7 @@ def main(args):
         collate_fn=collate_function,
         drop_last=True,
     )
+    
     val_dataloader = torch.utils.data.DataLoader(
         val_dataset,
         batch_size=cfg.device.batchsize_per_gpu,
