@@ -64,4 +64,4 @@ if __name__ == "__main__":
     opt = parser.parse_args()
 
     app.run(host="0.0.0.0", port=5000, threaded=True)
-    # python3 inference.py --source /dev/video0
+    # python3 test_cv_flask.py --source /dev/video0
